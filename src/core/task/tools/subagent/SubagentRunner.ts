@@ -353,7 +353,7 @@ export class SubagentRunner {
 				skills,
 				focusChainSettings: this.baseConfig.focusChainSettings,
 				browserSettings: this.baseConfig.browserSettings,
-				yoloModeToggled: false,
+
 				enableNativeToolCalls: nativeToolCallsRequested,
 				enableParallelToolCalling: false,
 				isSubagentRun: true,

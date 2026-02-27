@@ -16,7 +16,7 @@ import type { StronglyTypedUIHelpers } from "../types/UIHelpers"
 import { applyModelContentFixes } from "../utils/ModelContentProcessor"
 import { ToolResultUtils } from "../utils/ToolResultUtils"
 
-// Default timeout for commands in yolo mode and background exec mode
+// Default timeout for commands in background exec mode
 const DEFAULT_COMMAND_TIMEOUT_SECONDS = 30
 const LONG_RUNNING_COMMAND_TIMEOUT_SECONDS = 300
 
@@ -110,11 +110,11 @@ export class ExecuteCommandToolHandler implements IFullyManagedTool {
 
 		config.taskState.consecutiveMistakeCount = 0
 
-		// Handling of timeout while in yolo mode or background exec mode
+		// Handling of timeout while in background exec mode
 		timeoutSeconds = resolveCommandTimeoutSeconds(
 			command,
 			timeoutParam,
-			config.yoloModeToggled || config.vscodeTerminalExecutionMode === "backgroundExec",
+			config.vscodeTerminalExecutionMode === "backgroundExec",
 		)
 
 		// Pre-process command for certain models

@@ -195,10 +195,6 @@ export const RemoteConfigSchema = z.object({
 	// If this is true, users cannot use or configure MCP servers that are not remotely configured.
 	blockPersonalRemoteMCPServers: z.boolean().optional(),
 
-	// If the user is allowed to enable YOLO mode. Note this is different from the extension setting
-	// yoloModeEnabled, because we do not want to force YOLO enabled for the user.
-	yoloModeAllowed: z.boolean().optional(),
-
 	// OpenTelemetry configuration
 	openTelemetryEnabled: z.boolean().optional(),
 	openTelemetryMetricsExporter: z.string().optional(),

@@ -82,7 +82,6 @@ export interface ExtensionState {
 	localAgentsRulesToggles: ClineRulesToggles
 	mcpResponsesCollapsed?: boolean
 	strictPlanModeEnabled?: boolean
-	yoloModeToggled?: boolean
 	useAutoCondense?: boolean
 	subagentsEnabled?: boolean
 	clineWebToolsEnabled?: ClineFeatureSetting

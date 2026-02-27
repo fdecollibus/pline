@@ -1,14 +1,14 @@
 import { expect } from "chai"
 import { describe, it } from "mocha"
 import {
-	AwsBedrockSettingsSchema,
-	ClineSettingsSchema,
-	EnterpriseTelemetrySchema,
-	OpenAiCompatibleSchema,
-	PromptUploadingSchema,
-	type RemoteConfig,
-	RemoteConfigSchema,
-	S3AccessKeySettingsSchema,
+    AwsBedrockSettingsSchema,
+    ClineSettingsSchema,
+    EnterpriseTelemetrySchema,
+    OpenAiCompatibleSchema,
+    PromptUploadingSchema,
+    type RemoteConfig,
+    RemoteConfigSchema,
+    S3AccessKeySettingsSchema,
 } from "../schema"
 
 describe("Remote Config Schema", () => {
@@ -546,7 +546,7 @@ describe("Remote Config Schema", () => {
 				version: "v1",
 				telemetryEnabled: true,
 				mcpMarketplaceEnabled: true,
-				yoloModeAllowed: false,
+
 				providerSettings: {
 					OpenAiCompatible: {
 						models: [{ id: "gpt-4" }],
@@ -580,12 +580,10 @@ describe("Remote Config Schema", () => {
 				version: "v1",
 				telemetryEnabled: false,
 				mcpMarketplaceEnabled: false,
-				yoloModeAllowed: true,
 			}
 			const result = RemoteConfigSchema.parse(configWithGeneralSettings)
 			expect(result.telemetryEnabled).to.equal(false)
 			expect(result.mcpMarketplaceEnabled).to.equal(false)
-			expect(result.yoloModeAllowed).to.equal(true)
 		})
 
 		it("should accept config with OpenAI compatible provider only", () => {
@@ -642,7 +640,7 @@ describe("Remote Config Schema", () => {
 				mcpMarketplaceEnabled: false,
 				blockPersonalRemoteMCPServers: true,
 				allowedMCPServers: [{ id: "https://github.com/mcp/filesystem" }, { id: "https://github.com/mcp/github" }],
-				yoloModeAllowed: true,
+
 				openTelemetryEnabled: true,
 				openTelemetryMetricsExporter: "otlp",
 				openTelemetryLogsExporter: "otlp",
@@ -768,7 +766,7 @@ describe("Remote Config Schema", () => {
 			// Verify all top-level fields
 			expect(result.version).to.equal("v1")
 			expect(result.telemetryEnabled).to.equal(true)
-			expect(result.yoloModeAllowed).to.equal(true)
+
 
 			expect(result.mcpMarketplaceEnabled).to.equal(false)
 			expect(result.allowedMCPServers).to.deep.equal(config.allowedMCPServers)

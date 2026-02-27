@@ -1,11 +1,11 @@
 import { AutoApprovalSettings, DEFAULT_AUTO_APPROVAL_SETTINGS } from "@shared/AutoApprovalSettings"
 import {
-	ApiProvider,
-	DEFAULT_API_PROVIDER,
-	LiteLLMModelInfo,
-	ModelInfo,
-	type OcaModelInfo,
-	OpenAiCompatibleModelInfo,
+    ApiProvider,
+    DEFAULT_API_PROVIDER,
+    LiteLLMModelInfo,
+    ModelInfo,
+    type OcaModelInfo,
+    OpenAiCompatibleModelInfo,
 } from "@shared/api"
 import { BrowserSettings, DEFAULT_BROWSER_SETTINGS } from "@shared/BrowserSettings"
 import { ClineRulesToggles } from "@shared/cline-rules"
@@ -257,7 +257,6 @@ const USER_SETTINGS_FIELDS = {
 	terminalOutputLineLimit: { default: 500 as number },
 	maxConsecutiveMistakes: { default: 3 as number },
 	strictPlanModeEnabled: { default: false as boolean },
-	yoloModeToggled: { default: false as boolean },
 	autoApproveAllToggled: { default: false as boolean },
 	useAutoCondense: { default: false as boolean },
 	subagentsEnabled: { default: false as boolean },

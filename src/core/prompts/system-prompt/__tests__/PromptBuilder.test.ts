@@ -32,10 +32,7 @@ describe("PromptBuilder", () => {
 		},
 		isTesting: true,
 		providerInfo: mockProviderInfo,
-		yoloModeToggled: false,
-	}
 
-	const mockComponents: ComponentRegistry = {
 		SYSTEM_INFO_SECTION: async () => "SYSTEM INFORMATION\n\nOS: macOS\nShell: zsh",
 		TOOL_USE_SECTION: async () => "TOOL USE\n\n- {{TOOLS}}",
 		CAPABILITIES_SECTION: async () => "CAPABILITIES\n\n- Code execution\n- File operations",
@@ -132,7 +129,7 @@ describe("PromptBuilder", () => {
 					let template = variant.componentOverrides?.SYSTEM_INFO_SECTION?.template || "DEFAULT"
 
 					if (typeof template === "function") {
-						const mockContext = { cwd: "/test", yoloModeToggled: false } as SystemPromptContext
+						const mockContext = { cwd: "/test" } as SystemPromptContext
 						template = template(mockContext)
 					}
 					return template.replace("{{os}}", "Linux").replace("{{shell}}", "bash")

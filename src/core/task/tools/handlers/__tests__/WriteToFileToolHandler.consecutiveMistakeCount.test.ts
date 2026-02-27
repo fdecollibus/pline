@@ -355,14 +355,13 @@ describe("WriteToFileToolHandler consecutiveMistakeCount", () => {
 		})
 	})
 
-	describe("YOLO mode behavior", () => {
+	describe("mistake limit behavior", () => {
 		/**
-		 * In YOLO mode (full auto-approval), the task fails when mistake limit is reached.
-		 * This tests that the counter works correctly regardless of approval mode.
+		 * Tests that the mistake counter reaches the limit correctly.
+		 * This behavior applies regardless of approval mode.
 		 */
-		it("should trigger failure in YOLO mode after max mistakes", () => {
+		it("should trigger limit reached after max mistakes", () => {
 			const maxConsecutiveMistakes = 3
-			const yoloModeEnabled = true
 
 			// Simulate consecutive failures
 			for (let i = 0; i < 3; i++) {
@@ -370,11 +369,9 @@ describe("WriteToFileToolHandler consecutiveMistakeCount", () => {
 			}
 
 			if (taskState.consecutiveMistakeCount >= maxConsecutiveMistakes) {
-				if (yoloModeEnabled) {
-					// In YOLO mode, task would fail
-					const taskShouldFail = true
-					taskShouldFail.should.be.true()
-				}
+				// Task should handle limit reached
+				const limitReached = true
+				limitReached.should.be.true()
 			}
 		})
 	})

@@ -53,11 +53,6 @@ export class PlanModeRespondHandler implements IToolHandler, IPartialBlockHandle
 			)
 		}
 
-		// For safety, if we are in yolo mode and we get a plan_mode_respond tool call we should always continue the loop
-		if (config.yoloModeToggled && config.mode === "act") {
-			return formatResponse.toolResult(`[Go ahead and execute.]`)
-		}
-
 		// Store the number of options for telemetry
 		const options = parsePartialArrayString(optionsRaw || "[]")
 
@@ -66,8 +61,8 @@ export class PlanModeRespondHandler implements IToolHandler, IPartialBlockHandle
 			options: options,
 		}
 
-		// Auto-switch to Act mode while in yolo mode
-		if (config.mode === "plan" && config.yoloModeToggled && !needsMoreExploration) {
+		// Auto-switch to Act mode when plan is complete
+		if (config.mode === "plan" && !needsMoreExploration) {
 			// Trigger automatic mode switch
 			const switchSuccessful = await config.callbacks.switchToActMode()
 
@@ -85,8 +80,7 @@ export class PlanModeRespondHandler implements IToolHandler, IPartialBlockHandle
 				// we dont need to process any text, options, files or other content here
 				return formatResponse.toolResult(`[The user has switched to ACT MODE, so you may now proceed with the task.]`)
 			}
-			Logger.warn("YOLO MODE: Failed to switch to ACT MODE, continuing with normal plan mode")
-		}
+		Logger.warn("Failed to switch to Act mode, continuing with normal plan mode")
 
 		// Set awaiting plan response state
 		config.taskState.isAwaitingPlanResponse = true

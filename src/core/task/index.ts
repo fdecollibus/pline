@@ -9,15 +9,15 @@ import { EnvironmentContextTracker } from "@core/context/context-tracking/Enviro
 import { FileContextTracker } from "@core/context/context-tracking/FileContextTracker"
 import { ModelContextTracker } from "@core/context/context-tracking/ModelContextTracker"
 import {
-	getGlobalClineRules,
-	getLocalClineRules,
-	refreshClineRulesToggles,
+    getGlobalClineRules,
+    getLocalClineRules,
+    refreshClineRulesToggles,
 } from "@core/context/instructions/user-instructions/cline-rules"
 import {
-	getLocalAgentsRules,
-	getLocalCursorRules,
-	getLocalWindsurfRules,
-	refreshExternalRulesToggles,
+    getLocalAgentsRules,
+    getLocalCursorRules,
+    getLocalWindsurfRules,
+    refreshExternalRulesToggles,
 } from "@core/context/instructions/user-instructions/external-rules"
 import { sendPartialMessageEvent } from "@core/controller/ui/subscribeToPartialMessage"
 import { getHooksEnabledSafe } from "@core/hooks/hooks-utils"
@@ -29,11 +29,11 @@ import { summarizeTask } from "@core/prompts/contextManagement"
 import { formatResponse } from "@core/prompts/responses"
 import { parseSlashCommands } from "@core/slash-commands"
 import {
-	ensureRulesDirectoryExists,
-	ensureTaskDirectoryExists,
-	GlobalFileNames,
-	getSavedApiConversationHistory,
-	getSavedClineMessages,
+    ensureRulesDirectoryExists,
+    ensureTaskDirectoryExists,
+    GlobalFileNames,
+    getSavedApiConversationHistory,
+    getSavedClineMessages,
 } from "@core/storage/disk"
 import { releaseTaskLock } from "@core/task/TaskLockUtils"
 import { isMultiRootEnabled } from "@core/workspace/multi-root-utils"
@@ -63,11 +63,11 @@ import { convertClineMessageToProto } from "@shared/proto-conversions/cline-mess
 import { ClineDefaultTool, READ_ONLY_TOOLS } from "@shared/tools"
 import { ClineAskResponse } from "@shared/WebviewMessage"
 import {
-	isClaude4PlusModelFamily,
-	isGPT5ModelFamily,
-	isLocalModel,
-	isNextGenModelFamily,
-	isParallelToolCallingEnabled,
+    isClaude4PlusModelFamily,
+    isGPT5ModelFamily,
+    isLocalModel,
+    isNextGenModelFamily,
+    isParallelToolCallingEnabled,
 } from "@utils/model-utils"
 import { arePathsEqual, getDesktopDir } from "@utils/path"
 import { filterExistingFiles } from "@utils/tabFiltering"
@@ -82,24 +82,24 @@ import { getSystemPrompt } from "@/core/prompts/system-prompt"
 import { HostProvider } from "@/hosts/host-provider"
 import { FileEditProvider } from "@/integrations/editor/FileEditProvider"
 import {
-	type CommandExecutionOptions,
-	CommandExecutor,
-	CommandExecutorCallbacks,
-	FullCommandExecutorConfig,
-	StandaloneTerminalManager,
+    type CommandExecutionOptions,
+    CommandExecutor,
+    CommandExecutorCallbacks,
+    FullCommandExecutorConfig,
+    StandaloneTerminalManager,
 } from "@/integrations/terminal"
 import { ClineError, ClineErrorType, ErrorService } from "@/services/error"
 import { telemetryService } from "@/services/telemetry"
 import { ClineClient } from "@/shared/cline"
 import {
-	ClineAssistantContent,
-	ClineContent,
-	ClineImageContentBlock,
-	ClineMessageModelInfo,
-	ClineStorageMessage,
-	ClineTextContentBlock,
-	ClineToolResponseContent,
-	ClineUserContent,
+    ClineAssistantContent,
+    ClineContent,
+    ClineImageContentBlock,
+    ClineMessageModelInfo,
+    ClineStorageMessage,
+    ClineTextContentBlock,
+    ClineToolResponseContent,
+    ClineUserContent,
 } from "@/shared/messages"
 import { ApiFormat } from "@/shared/proto/cline/models"
 import { ShowMessageType } from "@/shared/proto/index.host"
@@ -846,7 +846,7 @@ export class Task {
 	}
 
 	private async switchToActModeCallback(): Promise<boolean> {
-		return await this.controller.toggleActModeForYoloMode()
+		return await this.controller.toggleActMode()
 	}
 
 	/**
@@ -1849,7 +1849,6 @@ export class Task {
 			clineIgnoreInstructions,
 			preferredLanguageInstructions,
 			browserSettings: this.stateManager.getGlobalSettingsKey("browserSettings"),
-			yoloModeToggled: this.stateManager.getGlobalSettingsKey("yoloModeToggled"),
 			subagentsEnabled: this.stateManager.getGlobalSettingsKey("subagentsEnabled"),
 			clineWebToolsEnabled:
 				this.stateManager.getGlobalSettingsKey("clineWebToolsEnabled") && featureFlagsService.getWebtoolsEnabled(),
@@ -2240,16 +2239,7 @@ export class Task {
 		}
 
 		if (this.taskState.consecutiveMistakeCount >= this.stateManager.getGlobalSettingsKey("maxConsecutiveMistakes")) {
-			// In yolo mode, don't wait for user input - fail the task
-			if (this.stateManager.getGlobalSettingsKey("yoloModeToggled")) {
-				const errorMessage =
-					`[YOLO MODE] Task failed: Too many consecutive mistakes (${this.taskState.consecutiveMistakeCount}). ` +
-					`The model may not be capable enough for this task. Consider using a more capable model.`
-				await this.say("error", errorMessage)
-				// End the task loop with failure
-				return true // didEndLoop = true, signals task completion/failure
-			}
-
+			// Too many consecutive mistakes, ask user if they want to continue or cancel
 			const autoApprovalSettings = this.stateManager.getGlobalSettingsKey("autoApprovalSettings")
 			if (autoApprovalSettings.enableNotifications) {
 				showSystemNotification({

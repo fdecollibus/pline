@@ -202,14 +202,12 @@ describe("vscode-to-file-migration", () => {
 		it("should migrate global state keys", async () => {
 			const mockCtx = createMockVSCodeContext()
 			mockCtx._globalStateStore.set("mode", "plan")
-			mockCtx._globalStateStore.set("yoloModeToggled", true)
 			mockCtx._globalStateStore.set("enableCheckpointsSetting", false)
 
 			const result = await exportVSCodeStorageToSharedFiles(mockCtx as any, storageContext)
 
 			result.migrated.should.be.true()
 			storageContext.globalState.get("mode")!.should.equal("plan")
-			storageContext.globalState.get("yoloModeToggled")!.should.equal(true)
 			storageContext.globalState.get("enableCheckpointsSetting")!.should.equal(false)
 		})
 
@@ -348,7 +346,6 @@ describe("vscode-to-file-migration", () => {
 			})
 
 			mockCtx._globalStateStore.set("mode", "act")
-			mockCtx._globalStateStore.set("yoloModeToggled", true)
 			mockCtx._globalStateStore.set("enableCheckpointsSetting", true)
 
 			try {

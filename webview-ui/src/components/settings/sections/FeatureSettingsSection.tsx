@@ -111,14 +111,6 @@ const editorFeatures: FeatureToggle[] = [
 
 const experimentalFeatures: FeatureToggle[] = [
 	{
-		id: "yolo",
-		label: "Yolo Mode",
-		description:
-			"Execute tasks without user's confirmation. Auto-switches from Plan to Act mode and disables the ask question tool. Use with extreme caution.",
-		stateKey: "yoloModeToggled",
-		settingKey: "yoloModeToggled",
-	},
-	{
 		id: "double-check-completion",
 		label: "Double-Check Completion",
 		description:
@@ -189,7 +181,6 @@ const FeatureSettingsSection = ({ renderSectionHeader }: FeatureSettingsSectionP
 		enableCheckpointsSetting,
 		mcpDisplayMode,
 		strictPlanModeEnabled,
-		yoloModeToggled,
 		useAutoCondense,
 		subagentsEnabled,
 		clineWebToolsEnabled,
@@ -209,7 +200,7 @@ const FeatureSettingsSection = ({ renderSectionHeader }: FeatureSettingsSectionP
 		[focusChainSettings],
 	)
 
-	const isYoloRemoteLocked = remoteConfigSettings?.yoloModeToggled !== undefined
+
 
 	// State lookup for mapped features
 	const featureState: Record<string, boolean | undefined> = {
@@ -224,7 +215,6 @@ const FeatureSettingsSection = ({ renderSectionHeader }: FeatureSettingsSectionP
 		enableParallelToolCalling,
 		backgroundEditEnabled,
 		doubleCheckCompletionEnabled,
-		yoloModeToggled: isYoloRemoteLocked ? remoteConfigSettings?.yoloModeToggled : yoloModeToggled,
 	}
 
 	// Visibility lookup for features with feature flags
@@ -320,8 +310,7 @@ const FeatureSettingsSection = ({ renderSectionHeader }: FeatureSettingsSectionP
 								<FeatureRow
 									checked={featureState[feature.stateKey]}
 									description={feature.description}
-									disabled={feature.id === "yolo" && isYoloRemoteLocked}
-									isRemoteLocked={feature.id === "yolo" && isYoloRemoteLocked}
+
 									isVisible={featureVisibility[feature.stateKey] ?? true}
 									key={feature.id}
 									label={feature.label}

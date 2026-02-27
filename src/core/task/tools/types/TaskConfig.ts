@@ -35,7 +35,6 @@ export interface TaskConfig {
 	cwd: string
 	mode: Mode
 	strictPlanModeEnabled: boolean
-	yoloModeToggled: boolean
 	doubleCheckCompletionEnabled: boolean
 	vscodeTerminalExecutionMode: "vscodeTerminal" | "backgroundExec"
 	enableParallelToolCalling: boolean

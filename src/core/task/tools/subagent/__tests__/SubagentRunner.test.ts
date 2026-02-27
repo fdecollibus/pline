@@ -43,7 +43,6 @@ function createTaskConfig(nativeToolCallEnabled: boolean): TaskConfig {
 		cwd: "/tmp",
 		mode: "act",
 		strictPlanModeEnabled: false,
-		yoloModeToggled: false,
 		doubleCheckCompletionEnabled: false,
 		vscodeTerminalExecutionMode: "backgroundExec",
 		enableParallelToolCalling: false,

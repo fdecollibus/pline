@@ -35,10 +35,7 @@ describe("TemplateEngine", () => {
 			},
 			isTesting: true,
 			providerInfo: mockProviderInfo,
-			yoloModeToggled: false,
-		}
 
-		it("should resolve simple placeholders", () => {
 			const template = "Hello {{name}}!"
 			const placeholders = { name: "World" }
 			const result = templateEngine.resolve(template, mockContext, placeholders)

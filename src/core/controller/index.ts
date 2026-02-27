@@ -43,11 +43,11 @@ import { getLatestAnnouncementId } from "@/utils/announcements"
 import { getCwd, getDesktopDir } from "@/utils/path"
 import { PromptRegistry } from "../prompts/system-prompt"
 import {
-	ensureCacheDirectoryExists,
-	ensureMcpServersDirectoryExists,
-	ensureSettingsDirectoryExists,
-	GlobalFileNames,
-	writeMcpMarketplaceCatalogToCache,
+    ensureCacheDirectoryExists,
+    ensureMcpServersDirectoryExists,
+    ensureSettingsDirectoryExists,
+    GlobalFileNames,
+    writeMcpMarketplaceCatalogToCache,
 } from "../storage/disk"
 import { fetchRemoteConfig } from "../storage/remote-config/fetch"
 import { clearRemoteConfig } from "../storage/remote-config/utils"
@@ -236,7 +236,7 @@ export class Controller {
 	) {
 		// Fire-and-forget: We intentionally don't await fetchRemoteConfig here.
 		// Remote config is already fetched in startRemoteConfigTimer() which runs in the constructor,
-		// so enterprise policies (yoloModeAllowed, allowedMCPServers, etc.) are already applied.
+		// so enterprise policies (allowedMCPServers, etc.) are already applied.
 		// This call just ensures we have the latest state, but we shouldn't block the UI for it.
 		// getGlobalSettingsKey() reads from remoteConfigCache on each call, so any updates
 		// will apply as soon as this fetch completes. The function also calls postStateToWebview()

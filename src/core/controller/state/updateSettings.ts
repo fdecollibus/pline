@@ -137,13 +137,6 @@ export async function updateSettings(controller: Controller, request: UpdateSett
 		if (request.strictPlanModeEnabled !== undefined) {
 			controller.stateManager.setGlobalState("strictPlanModeEnabled", request.strictPlanModeEnabled)
 		}
-		// Update yolo mode setting
-		if (request.yoloModeToggled !== undefined) {
-			if (controller.task) {
-				telemetryService.captureYoloModeToggle(controller.task.ulid, request.yoloModeToggled)
-			}
-			controller.stateManager.setGlobalState("yoloModeToggled", request.yoloModeToggled)
-		}
 
 		// Update cline web tools setting
 		if (request.clineWebToolsEnabled !== undefined) {

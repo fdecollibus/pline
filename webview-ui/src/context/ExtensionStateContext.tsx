@@ -14,15 +14,15 @@ import { fromProtobufModels } from "@shared/proto-conversions/models/typeConvers
 import type React from "react"
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react"
 import {
-	basetenDefaultModelId,
-	basetenModels,
-	groqDefaultModelId,
-	groqModels,
-	type ModelInfo,
-	openRouterDefaultModelId,
-	openRouterDefaultModelInfo,
-	requestyDefaultModelId,
-	requestyDefaultModelInfo,
+    basetenDefaultModelId,
+    basetenModels,
+    groqDefaultModelId,
+    groqModels,
+    type ModelInfo,
+    openRouterDefaultModelId,
+    openRouterDefaultModelInfo,
+    requestyDefaultModelId,
+    requestyDefaultModelInfo,
 } from "../../../src/shared/api"
 import { Environment } from "../../../src/shared/config-types"
 import type { McpMarketplaceCatalog, McpServer, McpViewTab } from "../../../src/shared/mcp"
@@ -261,7 +261,6 @@ export const ExtensionStateContextProvider: React.FC<{
 		onboardingModels: undefined,
 		mcpResponsesCollapsed: false, // Default value (expanded), will be overwritten by extension state
 		strictPlanModeEnabled: false,
-		yoloModeToggled: false,
 		customPrompt: undefined,
 		useAutoCondense: false,
 		subagentsEnabled: false,

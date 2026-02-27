@@ -26,7 +26,7 @@ const GENERIC: ClineToolSpec = {
 			name: "timeout",
 			required: false,
 			type: "integer",
-			contextRequirements: (context) => context.yoloModeToggled === true,
+			contextRequirements: (context) => false, // Removed yolo mode, timeout feature no longer available
 			instruction:
 				"Integer representing the timeout in seconds for how long to run the terminal command, before timing out and continuing the task.",
 			usage: "30",
