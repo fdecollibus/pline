@@ -18,7 +18,8 @@ const providerOrder: string[] = providersData.list.map((p: { value: string }) =>
 
 /**
  * Providers that are not supported in CLI.
- * - vscode-lm: Requires VS Code's Language Model API (see ENG-1490 for OAuth-based support)
+ * - vscode-lm: Requires VS Code's Language Model API (only available in VS Code extension, not CLI)
+ * Note: Since only vscode-lm is now available, CLI mode requires remoteConfiguredProviders to be set
  */
 const CLI_EXCLUDED_PROVIDERS = new Set<string>(["vscode-lm"])
 
