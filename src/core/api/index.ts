@@ -467,6 +467,11 @@ export function buildApiHandler(configuration: ApiConfiguration, mode: Mode): Ap
 
 	const apiProvider = mode === "plan" ? planModeApiProvider : actModeApiProvider
 
+	// Security: Only allow vscode-lm provider
+	if (apiProvider && apiProvider !== "vscode-lm") {
+		throw new Error(`Security Error: Only 'vscode-lm' (GitHub Copilot) provider is allowed. Attempted to use: '${apiProvider}'`)
+	}
+
 	// Validate thinking budget tokens against model's maxTokens to prevent API errors
 	// wrapped in a try-catch for safety, but this should never throw
 	try {

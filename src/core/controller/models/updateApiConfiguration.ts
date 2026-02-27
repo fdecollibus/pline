@@ -106,9 +106,19 @@ export async function updateApiConfiguration(controller: Controller, request: Up
 				if (maskOptionsFields.has(key)) {
 					// Handle enum conversions
 					if (key === "planModeApiProvider") {
-						options.planModeApiProvider = convertProtoToApiProvider(value)
+						const provider = convertProtoToApiProvider(value)
+						// Security: Only allow vscode-lm provider
+						if (provider !== "vscode-lm") {
+							throw new Error(`Security Error: Only 'vscode-lm' (GitHub Copilot) provider is allowed. Attempted to set: '${provider}'`)
+						}
+						options.planModeApiProvider = provider
 					} else if (key === "actModeApiProvider") {
-						options.actModeApiProvider = convertProtoToApiProvider(value)
+						const provider = convertProtoToApiProvider(value)
+						// Security: Only allow vscode-lm provider
+						if (provider !== "vscode-lm") {
+							throw new Error(`Security Error: Only 'vscode-lm' (GitHub Copilot) provider is allowed. Attempted to set: '${provider}'`)
+						}
+						options.actModeApiProvider = provider
 					} else {
 						options[key as keyof ApiHandlerOptions] = value
 					}
@@ -118,9 +128,13 @@ export async function updateApiConfiguration(controller: Controller, request: Up
 						const alternateField = getAlternateModeField(key)
 						if (alternateField) {
 							if (alternateField === "planModeApiProvider") {
-								options.planModeApiProvider = convertProtoToApiProvider(value)
+								const provider = convertProtoToApiProvider(value)
+								// Security check already done above, just assign
+								options.planModeApiProvider = provider
 							} else if (alternateField === "actModeApiProvider") {
-								options.actModeApiProvider = convertProtoToApiProvider(value)
+								const provider = convertProtoToApiProvider(value)
+								// Security check already done above, just assign
+								options.actModeApiProvider = provider
 							} else {
 								options[alternateField as keyof ApiHandlerOptions] = value
 							}

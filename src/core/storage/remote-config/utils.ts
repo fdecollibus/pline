@@ -116,100 +116,17 @@ export function transformRemoteConfigToStateShape(remoteConfig: RemoteConfig): P
 	// Map provider settings
 	const providers: ApiProvider[] = []
 
-	// Map OpenAiCompatible provider settings
-	const openAiSettings = remoteConfig.providerSettings?.OpenAiCompatible
-	if (openAiSettings) {
-		transformed.planModeApiProvider = "openai"
-		transformed.actModeApiProvider = "openai"
-		providers.push("openai")
-
-		if (openAiSettings.openAiBaseUrl !== undefined) {
-			transformed.openAiBaseUrl = openAiSettings.openAiBaseUrl
-		}
-		if (openAiSettings.openAiHeaders !== undefined) {
-			transformed.openAiHeaders = openAiSettings.openAiHeaders
-		}
-		if (openAiSettings.azureApiVersion !== undefined) {
-			transformed.azureApiVersion = openAiSettings.azureApiVersion
-		}
-		if (openAiSettings.azureIdentity !== undefined) {
-			transformed.azureIdentity = openAiSettings.azureIdentity
-		}
+	// Security: Only allow vscode-lm provider - reject all remote config provider settings
+	const hasProviderSettings = remoteConfig.providerSettings && Object.keys(remoteConfig.providerSettings).length > 0
+	if (hasProviderSettings) {
+		Logger.warn("Security: Remote config attempted to set provider settings. Only vscode-lm is allowed. Ignoring provider settings.")
 	}
 
-	// Map AwsBedrock provider settings
-	const awsBedrockSettings = remoteConfig.providerSettings?.AwsBedrock
-	if (awsBedrockSettings) {
-		transformed.planModeApiProvider = "bedrock"
-		transformed.actModeApiProvider = "bedrock"
-		providers.push("bedrock")
-
-		if (awsBedrockSettings.awsRegion !== undefined) {
-			transformed.awsRegion = awsBedrockSettings.awsRegion
-		}
-		if (awsBedrockSettings.awsUseCrossRegionInference !== undefined) {
-			transformed.awsUseCrossRegionInference = awsBedrockSettings.awsUseCrossRegionInference
-		}
-		if (awsBedrockSettings.awsUseGlobalInference !== undefined) {
-			transformed.awsUseGlobalInference = awsBedrockSettings.awsUseGlobalInference
-		}
-		if (awsBedrockSettings.awsBedrockUsePromptCache !== undefined) {
-			transformed.awsBedrockUsePromptCache = awsBedrockSettings.awsBedrockUsePromptCache
-		}
-		if (awsBedrockSettings.awsBedrockEndpoint !== undefined) {
-			transformed.awsBedrockEndpoint = awsBedrockSettings.awsBedrockEndpoint
-		}
-	}
-
-	const clineSettings = remoteConfig.providerSettings?.Cline
-	if (clineSettings) {
-		transformed.planModeApiProvider = "cline"
-		transformed.actModeApiProvider = "cline"
-		providers.push("cline")
-	}
-
-	// Map LiteLLM provider settings
-	const liteLlmSettings = remoteConfig.providerSettings?.LiteLLM
-	if (liteLlmSettings) {
-		transformed.planModeApiProvider = "litellm"
-		transformed.actModeApiProvider = "litellm"
-		providers.push("litellm")
-
-		if (liteLlmSettings.baseUrl !== undefined) {
-			transformed.liteLlmBaseUrl = liteLlmSettings.baseUrl
-		}
-	}
-
-	// Map Vertex provider settings
-	const vertexSettings = remoteConfig.providerSettings?.Vertex
-	if (vertexSettings) {
-		transformed.planModeApiProvider = "vertex"
-		transformed.actModeApiProvider = "vertex"
-		providers.push("vertex")
-
-		if (vertexSettings.vertexProjectId !== undefined) {
-			transformed.vertexProjectId = vertexSettings.vertexProjectId
-		}
-		if (vertexSettings.vertexRegion !== undefined) {
-			transformed.vertexRegion = vertexSettings.vertexRegion
-		}
-	}
-
-	const anthropicSettings = remoteConfig.providerSettings?.Anthropic
-	if (anthropicSettings) {
-		transformed.planModeApiProvider = "anthropic"
-		transformed.actModeApiProvider = "anthropic"
-		providers.push("anthropic")
-
-		if (anthropicSettings.baseUrl) {
-			transformed.anthropicBaseUrl = anthropicSettings.baseUrl
-		}
-	}
-
-	// This line needs to stay here, it is order dependent on the above code checking the configured providers
-	if (providers.length > 0) {
-		transformed.remoteConfiguredProviders = providers
-	}
+	// Only allow vscode-lm to be configured
+	providers.push("vscode-lm")
+	transformed.planModeApiProvider = "vscode-lm"
+	transformed.actModeApiProvider = "vscode-lm"
+	transformed.remoteConfiguredProviders = providers
 
 	// Map global rules and workflows
 	if (remoteConfig.globalRules !== undefined) {
