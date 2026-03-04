@@ -406,11 +406,16 @@ describe("SubagentRunner", () => {
 		stubApiHandler(createMessage)
 		initializeHostProvider()
 
+		const clock = sinon.useFakeTimers()
 		const runner = new SubagentRunner(createTaskConfig(false))
-		const result = await runner.run("List files", () => {})
+		const runPromise = runner.run("List files", () => {})
+		await clock.runAllAsync()
+		const result = await runPromise
+		clock.restore()
 
 		assert.equal(result.status, "failed")
 		assert.equal(createMessage.callCount, 3)
+		assert.match(result.error || "", /stream_initialization_failed/i)
 	})
 
 	it("fails context window errors", async () => {
@@ -437,6 +442,7 @@ describe("SubagentRunner", () => {
 
 		assert.equal(result.status, "failed")
 		assert.equal(createMessage.callCount, 1)
+		assert.match(result.error || "", /context length exceeded/i)
 	})
 
 	it("uses the configured task api handler for subagent requests", async () => {
