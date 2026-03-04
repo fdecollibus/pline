@@ -67,7 +67,7 @@ export class PostHogFeatureFlagsProvider implements IFeatureFlagsProvider {
 		// Only shut down the client if it's not shared (we own it)
 		if (!this.isSharedClient) {
 			try {
-				await this.client.shutdown()
+				await (this.client as any).shutdown()
 			} catch (error) {
 				Logger.error("Error shutting down PostHog client:", error)
 			}

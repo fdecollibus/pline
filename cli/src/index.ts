@@ -191,13 +191,6 @@ function applyTaskOptions(options: TaskOptions): void {
 		telemetryService.captureHostEvent("max_consecutive_mistakes_flag", String(maxConsecutiveMistakes))
 	}
 
-	// Set yolo mode as a session-scoped override so AutoApprove picks it up,
-	// but it is never persisted to disk (setSessionOverride never touches pendingGlobalState).
-	if (options.yolo) {
-		StateManager.get().setSessionOverride("yoloModeToggled", true)
-		telemetryService.captureHostEvent("yolo_flag", "true")
-	}
-
 	// Set double-check completion based on flag
 	if (options.doubleCheckCompletion) {
 		StateManager.get().setGlobalState("doubleCheckCompletionEnabled", true)

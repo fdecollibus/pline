@@ -12,7 +12,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
 import { ChatView } from "./ChatView"
 
 // Helper to wait for async state updates
-const delay = (ms: number = 60) => new Promise((resolve) => setTimeout(resolve, ms))
+const delay = (ms = 60) => new Promise((resolve) => setTimeout(resolve, ms))
 
 // Type for our exit mock function
 type ExitMockFn = ReturnType<typeof vi.fn> & (() => void)
@@ -69,7 +69,6 @@ vi.mock("@/core/storage/StateManager", () => ({
 		get: vi.fn(() => ({
 			getGlobalSettingsKey: vi.fn((key: string) => {
 				if (key === "mode") return "act"
-				if (key === "yoloModeToggled") return false
 				if (key === "actModeApiModelId") return "claude-sonnet-4-20250514"
 				return null
 			}),

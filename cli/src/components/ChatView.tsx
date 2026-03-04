@@ -476,7 +476,7 @@ export const ChatView: React.FC<ChatViewProps> = ({
 		return stateManager.getGlobalSettingsKey("mode") || "act"
 	})
 
-	const [yolo, _setYolo] = useState<boolean>(() => StateManager.get().getGlobalSettingsKey("yoloModeToggled") ?? false)
+	const [yolo, _setYolo] = useState<boolean>(false)
 	const [autoApproveAll, setAutoApproveAll] = useState<boolean>(
 		() => StateManager.get().getGlobalSettingsKey("autoApproveAllToggled") ?? false,
 	)

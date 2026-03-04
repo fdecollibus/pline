@@ -68,7 +68,7 @@ export class PostHogTelemetryProvider implements ITelemetryProvider {
 	}
 
 	async forceFlush() {
-		return this.client.flush()
+		return (this.client as any).flush()
 	}
 
 	public log(event: string, properties?: TelemetryProperties): void {
@@ -124,10 +124,10 @@ export class PostHogTelemetryProvider implements ITelemetryProvider {
 		const wasOptedIn = this.optInCache
 		try {
 			if (isOptedIn && !wasOptedIn) {
-				this.client.optIn()
+				this.client.enable()
 			}
 			if (!isOptedIn && wasOptedIn) {
-				this.client.optOut()
+				this.client.disable()
 			}
 		} catch (err) {
 			Logger.error("Failed to update the PostHog telemetry state", err)
@@ -205,7 +205,7 @@ export class PostHogTelemetryProvider implements ITelemetryProvider {
 		// Only shut down the client if it's not shared (we own it)
 		if (!this.isSharedClient) {
 			try {
-				await this.client.shutdown()
+				await (this.client as any).shutdown()
 			} catch (error) {
 				Logger.error("Error shutting down PostHog client:", error)
 			}

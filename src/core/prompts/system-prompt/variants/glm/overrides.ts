@@ -184,7 +184,7 @@ When a server is connected, you can use the server's tools via the \`use_mcp_too
 
 {{MCP_SERVERS_LIST}}`
 
-const GLM_RULES_TEMPLATE = (context: SystemPromptContext) => `RULES
+const GLM_RULES_TEMPLATE = (_context: SystemPromptContext) => `RULES
 
 - Accomplish the user's task; avoid back-and-forth conversation.
 - Ask only for necessary info. Use tools to complete the task efficiently. When done, use attempt_completion to deliver the result. The user may give feedback for a later iteration.
@@ -194,8 +194,9 @@ const GLM_RULES_TEMPLATE = (context: SystemPromptContext) => `RULES
 - Make changes in context of the codebase; follow project standards and best practices.
 - To modify files, call replace_in_file directly; no need to preview diffs before using the tool.
 - Use Markdown semantically only (e.g., inline code, code fences, lists, tables). Backtick file/dir/function/class names. Use for inline math and for block math.
-- ${context.yoloModeToggled !== true ? "Ask questions only via ask_followup_question when details are required to proceed; otherwise prefer using tools. Example: if a file may be on the Desktop, use list_files to find it rather than asking the user." : "Use tools and best judgment to complete the task without follow-up questions, making reasonable assumptions from context."}${context.yoloModeToggled !== true ? "\n- If the request is vague, use ask_followup_question to clarify. If intent can be inferred from context/tools, proceed without unnecessary questions." : ""}
-- If command output doesn't appear, assume success and continue.${context.yoloModeToggled !== true ? " If you must see output, use ask_followup_question to request a pasted log." : ""}
+- Ask questions only via ask_followup_question when details are required to proceed; otherwise prefer using tools. Example: if a file may be on the Desktop, use list_files to find it rather than asking the user.
+- If the request is vague, use ask_followup_question to clarify. If intent can be inferred from context/tools, proceed without unnecessary questions.
+- If command output doesn't appear, assume success and continue. If you must see output, use ask_followup_question to request a pasted log.
 - If the user pasted a file's contents, don't call read_file for it.
 - {{BROWSER_RULES}}- Never end attempt_completion with a question. Finish decisively.
 - You will receive environment_details after each user message; use it as helpful context only, not as the user's request.

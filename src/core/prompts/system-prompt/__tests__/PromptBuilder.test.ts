@@ -32,7 +32,9 @@ describe("PromptBuilder", () => {
 		},
 		isTesting: true,
 		providerInfo: mockProviderInfo,
+	}
 
+	const mockComponents: ComponentRegistry = {
 		SYSTEM_INFO_SECTION: async () => "SYSTEM INFORMATION\n\nOS: macOS\nShell: zsh",
 		TOOL_USE_SECTION: async () => "TOOL USE\n\n- {{TOOLS}}",
 		CAPABILITIES_SECTION: async () => "CAPABILITIES\n\n- Code execution\n- File operations",

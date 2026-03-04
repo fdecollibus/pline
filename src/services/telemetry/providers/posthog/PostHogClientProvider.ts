@@ -76,6 +76,6 @@ export class PostHogClientProvider {
 	}
 
 	public async dispose(): Promise<void> {
-		await this.client?.shutdown().catch((error) => Logger.error("Error shutting down PostHog client:", error))
+		await (this.client as any)?.shutdown().catch((error: Error) => Logger.error("Error shutting down PostHog client:", error))
 	}
 }

@@ -43,11 +43,11 @@ import { getLatestAnnouncementId } from "@/utils/announcements"
 import { getCwd, getDesktopDir } from "@/utils/path"
 import { PromptRegistry } from "../prompts/system-prompt"
 import {
-    ensureCacheDirectoryExists,
-    ensureMcpServersDirectoryExists,
-    ensureSettingsDirectoryExists,
-    GlobalFileNames,
-    writeMcpMarketplaceCatalogToCache,
+	ensureCacheDirectoryExists,
+	ensureMcpServersDirectoryExists,
+	ensureSettingsDirectoryExists,
+	GlobalFileNames,
+	writeMcpMarketplaceCatalogToCache,
 } from "../storage/disk"
 import { fetchRemoteConfig } from "../storage/remote-config/fetch"
 import { clearRemoteConfig } from "../storage/remote-config/utils"
@@ -854,7 +854,6 @@ export class Controller {
 		const preferredLanguage = this.stateManager.getGlobalSettingsKey("preferredLanguage")
 		const mode = this.stateManager.getGlobalSettingsKey("mode")
 		const strictPlanModeEnabled = this.stateManager.getGlobalSettingsKey("strictPlanModeEnabled")
-		const yoloModeToggled = this.stateManager.getGlobalSettingsKey("yoloModeToggled")
 		const useAutoCondense = this.stateManager.getGlobalSettingsKey("useAutoCondense")
 		const subagentsEnabled = this.stateManager.getGlobalSettingsKey("subagentsEnabled")
 		const userInfo = this.stateManager.getGlobalStateKey("userInfo")
@@ -931,7 +930,6 @@ export class Controller {
 			preferredLanguage,
 			mode,
 			strictPlanModeEnabled,
-			yoloModeToggled,
 			useAutoCondense,
 			subagentsEnabled,
 			userInfo,

@@ -41,7 +41,8 @@ function parseFieldMask(updateMask: string[]): {
 function getAlternateModeField(fieldName: string): string | null {
 	if (fieldName.startsWith("planMode")) {
 		return fieldName.replace("planMode", "actMode")
-	} else if (fieldName.startsWith("actMode")) {
+	}
+	if (fieldName.startsWith("actMode")) {
 		return fieldName.replace("actMode", "planMode")
 	}
 	return null
@@ -109,14 +110,18 @@ export async function updateApiConfiguration(controller: Controller, request: Up
 						const provider = convertProtoToApiProvider(value)
 						// Security: Only allow vscode-lm provider
 						if (provider !== "vscode-lm") {
-							throw new Error(`Security Error: Only 'vscode-lm' (GitHub Copilot) provider is allowed. Attempted to set: '${provider}'`)
+							throw new Error(
+								`Security Error: Only 'vscode-lm' (GitHub Copilot) provider is allowed. Attempted to set: '${provider}'`,
+							)
 						}
 						options.planModeApiProvider = provider
 					} else if (key === "actModeApiProvider") {
 						const provider = convertProtoToApiProvider(value)
 						// Security: Only allow vscode-lm provider
 						if (provider !== "vscode-lm") {
-							throw new Error(`Security Error: Only 'vscode-lm' (GitHub Copilot) provider is allowed. Attempted to set: '${provider}'`)
+							throw new Error(
+								`Security Error: Only 'vscode-lm' (GitHub Copilot) provider is allowed. Attempted to set: '${provider}'`,
+							)
 						}
 						options.actModeApiProvider = provider
 					} else {

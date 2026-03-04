@@ -80,7 +80,8 @@ export class PlanModeRespondHandler implements IToolHandler, IPartialBlockHandle
 				// we dont need to process any text, options, files or other content here
 				return formatResponse.toolResult(`[The user has switched to ACT MODE, so you may now proceed with the task.]`)
 			}
-		Logger.warn("Failed to switch to Act mode, continuing with normal plan mode")
+			Logger.warn("Failed to switch to Act mode, continuing with normal plan mode")
+		}
 
 		// Set awaiting plan response state
 		config.taskState.isAwaitingPlanResponse = true

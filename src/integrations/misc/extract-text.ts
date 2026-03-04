@@ -15,17 +15,17 @@ export async function detectEncoding(fileBuffer: Buffer, fileExtension?: string)
 	const detected = chardet.detect(fileBuffer)
 	if (typeof detected === "string") {
 		return detected
-	} else if (detected && (detected as any).encoding) {
-		return (detected as any).encoding
-	} else {
-		if (fileExtension) {
-			const isBinary = await isBinaryFile(fileBuffer).catch(() => false)
-			if (isBinary) {
-				throw new Error(`Cannot read text for file type: ${fileExtension}`)
-			}
-		}
-		return "utf8"
 	}
+	if (detected && (detected as any).encoding) {
+		return (detected as any).encoding
+	}
+	if (fileExtension) {
+		const isBinary = await isBinaryFile(fileBuffer).catch(() => false)
+		if (isBinary) {
+			throw new Error(`Cannot read text for file type: ${fileExtension}`)
+		}
+	}
+	return "utf8"
 }
 
 export async function extractTextFromFile(filePath: string): Promise<string> {
@@ -101,7 +101,7 @@ async function extractTextFromIPYNB(filePath: string): Promise<string> {
 /**
  * Format the data inside Excel cells
  */
-function formatCellValue(cell: ExcelJS.Cell): string {
+function formatCellValue(cell: any): string {
 	const value = cell.value
 	if (value === null || value === undefined) {
 		return ""
@@ -119,7 +119,7 @@ function formatCellValue(cell: ExcelJS.Cell): string {
 
 	// Handle rich text
 	if (typeof value === "object" && "richText" in value) {
-		return value.richText.map((rt) => rt.text).join("")
+		return value.richText.map((rt: any) => rt.text).join("")
 	}
 
 	// Handle hyperlinks
@@ -131,9 +131,8 @@ function formatCellValue(cell: ExcelJS.Cell): string {
 	if (typeof value === "object" && "formula" in value) {
 		if ("result" in value && value.result !== undefined && value.result !== null) {
 			return value.result.toString()
-		} else {
-			return `[Formula: ${value.formula}]`
 		}
+		return `[Formula: ${value.formula}]`
 	}
 
 	return value.toString()
@@ -149,7 +148,7 @@ async function extractTextFromExcel(filePath: string): Promise<string> {
 	try {
 		await workbook.xlsx.readFile(filePath)
 
-		workbook.eachSheet((worksheet, _sheetId) => {
+		workbook.eachSheet((worksheet: any, _sheetId: any) => {
 			// Skip hidden sheets
 			if (worksheet.state === "hidden" || worksheet.state === "veryHidden") {
 				return
@@ -157,7 +156,7 @@ async function extractTextFromExcel(filePath: string): Promise<string> {
 
 			excelText += `--- Sheet: ${worksheet.name} ---\n`
 
-			worksheet.eachRow({ includeEmpty: false }, (row, rowNumber) => {
+			worksheet.eachRow({ includeEmpty: false }, (row: any, rowNumber: any) => {
 				// Optional: limit processing for very large sheets
 				if (rowNumber > 50000) {
 					excelText += `[... truncated at row ${rowNumber} ...]\n`
@@ -167,7 +166,7 @@ async function extractTextFromExcel(filePath: string): Promise<string> {
 				const rowTexts: string[] = []
 				let hasContent = false
 
-				row.eachCell({ includeEmpty: true }, (cell, _colNumber) => {
+				row.eachCell({ includeEmpty: true }, (cell: any, _colNumber: any) => {
 					const cellText = formatCellValue(cell)
 					if (cellText.trim()) {
 						hasContent = true
